@@ -1,4 +1,4 @@
--- Сводка места по табличным пространствам
+-- РЎРІРѕРґРєР° РјРµСЃС‚Р° РїРѕ С‚Р°Р±Р»РёС‡РЅС‹Рј РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°Рј
 SELECT  free.tablespace_name TABLESPACE, 
     ROUND(files.bytes / 1073741824, 2) gb_total,
     ROUND((files.bytes - free.bytes)  / 1073741824, 2) gb_used,      
@@ -16,7 +16,7 @@ WHERE
   free.tablespace_name = files.tablespace_name
   and files.tablespace_name = 'TRNDATA'
   
--- просто сегменты хранидища
+-- РџСЂРѕСЃС‚Рѕ СЃРµРіРјРµРЅС‚С‹ С…СЂР°РЅРёР»РёС‰Р°
 select s.owner, s.segment_name, round(sum(bytes)/(1024*1024*1024),2) as sz, sum(blocks) as blocks 
 from dba_segments s where s.tablespace_name = ['TABLESPACE_NAME'] 
 group by s.owner, s.segment_name
@@ -24,7 +24,7 @@ having round(sum(bytes)/(1024*1024*1024),2) >0
 order by s.owner, sz desc 
 
   
--- Какие сегменты занимают меcто (LOB)
+-- РљР°РєРёРµ СЃРµРіРјРµРЅС‚С‹ Р·Р°РЅРёРјР°СЋС‚ РјРµcС‚Рѕ (LOB)
 select s.*, l.TABLE_NAME, l.COLUMN_NAME from
 (
 select owner, segment_name, round(sum(bytes)/(1024*1024*1024),2) as sz, sum(blocks) as blocks 
